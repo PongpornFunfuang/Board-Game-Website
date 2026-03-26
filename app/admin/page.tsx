@@ -134,13 +134,6 @@ export default function AdminLoginPage() {
             </form>
 
             <div className="mt-6 pt-6 border-t text-center space-y-2">
-              <p className="text-sm text-muted-foreground">
-                ยังไม่มีบัญชี?{' '}
-                <Link href="/admin/signup" className="text-primary hover:underline">
-                  สมัครบัญชี Admin
-                </Link>
-              </p>
-
               <Link
                 href="/"
                 className="text-sm text-muted-foreground hover:text-primary block"
