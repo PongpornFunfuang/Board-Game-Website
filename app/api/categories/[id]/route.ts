@@ -1,34 +1,51 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
-  const supabase = await createClient()
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params // Next.js 15 ต้อง await params
+    const supabase = await createClient()
+    const body = await request.json()
 
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('name', { ascending: true })
+    // แก้ไข: ใช้ id ตรงๆ (string/uuid) ไม่ต้องครอบ Number()
+    const { data, error } = await supabase
+      .from('categories')
+      .update({
+        name: body.name,
+        description: body.description,
+        updated_at: new Date().toISOString(), // อัปเดตเวลาแก้ไข
+      })
+      .eq('id', id) 
+      .select()
+      .single()
 
-  if (error) {
+    if (error) throw error
+    return NextResponse.json(data)
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }
 
-export async function POST(request: NextRequest) {
-  const supabase = await createClient()
-  const body = await request.json()
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params
+    const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('categories')
-    .insert([body])
-    .select()
-    .single()
+    // แก้ไข: ใช้ id ตรงๆ เพื่อลบข้อมูลตาม UUID
+    const { error } = await supabase
+      .from('categories')
+      .delete()
+      .eq('id', id)
 
-  if (error) {
+    if (error) throw error
+    return NextResponse.json({ success: true })
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
-
-  return NextResponse.json(data)
 }

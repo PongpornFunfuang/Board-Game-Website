@@ -1,5 +1,5 @@
 {
-  "name": "my-project",
+  "name": "Board-Game-Website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,7 +39,7 @@
     "@radix-ui/react-tooltip": "1.2.8",
     "@supabase/ssr": "^0.9.0",
     "@tailwindcss/vite": "^4.2.1",
-    "@vercel/analytics": "1.6.1",
+    "@vercel/analytics": "^1.6.1",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
