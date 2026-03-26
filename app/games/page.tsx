@@ -1,5 +1,8 @@
 'use client'
 
+// ✅ กัน prerender พัง (สำคัญมาก)
+export const dynamic = 'force-dynamic'
+
 import { Suspense, useState, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Header } from '@/components/header'
@@ -10,7 +13,7 @@ import { CategoryFilter } from '@/components/category-filter'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { BoardGame, Category } from '@/lib/types'
 
-// ✅ แยก logic ออกเป็น component ด้านใน
+// 🔹 Component หลัก (ใช้ useSearchParams ต้องอยู่ข้างใน)
 function GamesContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -23,6 +26,7 @@ function GamesContent() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categoryParam)
 
+  // ✅ fetch games
   const fetchGames = useCallback(async () => {
     setLoading(true)
     try {
@@ -43,6 +47,7 @@ function GamesContent() {
     }
   }, [searchQuery, selectedCategory])
 
+  // ✅ fetch categories
   const fetchCategories = async () => {
     try {
       const res = await fetch('/api/categories', {
@@ -55,21 +60,23 @@ function GamesContent() {
     }
   }
 
+  // โหลด categories ครั้งแรก
   useEffect(() => {
     fetchCategories()
   }, [])
 
+  // โหลด games ทุกครั้งที่ filter เปลี่ยน
   useEffect(() => {
     fetchGames()
   }, [fetchGames])
 
+  // sync URL → state
   useEffect(() => {
     setSelectedCategory(categoryParam)
   }, [categoryParam])
 
+  // เลือก category
   const handleCategorySelect = (categoryId: string | null) => {
-    setSelectedCategory(categoryId)
-
     const params = new URLSearchParams(searchParams.toString())
 
     if (categoryId) {
@@ -81,6 +88,7 @@ function GamesContent() {
     router.push(`/games?${params.toString()}`)
   }
 
+  // search
   const handleSearch = () => {
     fetchGames()
   }
@@ -90,6 +98,8 @@ function GamesContent() {
       <Header />
 
       <main className="flex-1">
+
+        {/* HERO */}
         <section className="py-8 lg:py-12 bg-muted/30">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl lg:text-4xl font-bold mb-2">
@@ -101,6 +111,7 @@ function GamesContent() {
           </div>
         </section>
 
+        {/* FILTER */}
         <section className="py-8">
           <div className="container mx-auto px-4">
 
@@ -118,6 +129,7 @@ function GamesContent() {
               />
             </div>
 
+            {/* LOADING */}
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[...Array(8)].map((_, i) => (
@@ -145,6 +157,7 @@ function GamesContent() {
 
           </div>
         </section>
+
       </main>
 
       <Footer />
@@ -152,7 +165,7 @@ function GamesContent() {
   )
 }
 
-// ✅ export หลัก ครอบ Suspense
+// 🔹 Export หลัก (ครอบ Suspense)
 export default function GamesPage() {
   return (
     <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
