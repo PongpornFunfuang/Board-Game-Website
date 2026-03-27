@@ -7,7 +7,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Board Game Paradise - สวรรค์ของคนรักบอร์ดเกม',
+  title: 'NTER Board Game Cafe - สวรรค์ของคนรักบอร์ดเกม',
   description: 'ร้านบอร์ดเกมครบวงจร มีเกมวางแผน เกมปาร์ตี้ เกมครอบครัว เกมการ์ด และอีกมากมาย',
   generator: 'v0.app',
   icons: {

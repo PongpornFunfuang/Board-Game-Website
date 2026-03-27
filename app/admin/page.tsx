@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
             <Dice5 className="h-10 w-10 text-primary" />
-            <span className="text-2xl font-bold">Board Game Paradise</span>
+            <span className="text-2xl font-bold">NTER Board Game Cafe</span>
           </Link>
           <p className="text-muted-foreground">ระบบจัดการหลังบ้าน</p>
         </div>

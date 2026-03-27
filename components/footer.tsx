@@ -10,7 +10,7 @@ export function Footer() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <Dice5 className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold">Board Game Paradise</span>
+              <span className="text-xl font-bold">NTER Board Game Cafe</span>
             </div>
             <p className="text-sm text-muted-foreground">
               สวรรค์ของคนรักบอร์ดเกม - มีเกมให้เลือกหลากหลายประเภท
@@ -42,26 +42,26 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4" />
-                <span>02-123-4567</span>
+                <span>092 614 2919</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Facebook className="h-4 w-4" />
-                <span>Board Game Paradise</span>
+                <span>NTER Board Game Cafe</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MessageCircle className="h-4 w-4" />
-                <span>@boardgameparadise</span>
+                <span>@ntercafe</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>123 ถนนสุขุมวิท กรุงเทพฯ</span>
+                <span>42/16 ถ.อำมาตย์ ต.ในเมือง อ.เมือง จ.ขอนแก่น, Khon Kaen, Thailand</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Board Game Paradise. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} NTER Board Game Cafe. All rights reserved.</p>
         </div>
       </div>
     </footer>

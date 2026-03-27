@@ -13,7 +13,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
           <Dice5 className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold">Board Game Paradise</span>
+          <span className="text-xl font-bold">NTER Board Game Cafe</span>
         </Link>
 
         {/* Desktop Navigation */}

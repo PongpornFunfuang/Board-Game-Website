@@ -45,8 +45,8 @@ export default async function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold mb-4">{store?.phone || '02-123-4567'}</p>
-                    <a href={`tel:${store?.phone || '02-123-4567'}`}>
+                    <p className="text-2xl font-bold mb-4">{store?.phone || '092 614 2919'}</p>
+                    <a href={`tel:${store?.phone || '092 614 2919'}`}>
                       <Button className="w-full gap-2">
                         <Phone className="h-4 w-4" />
                         โทรเลย
@@ -69,7 +69,7 @@ export default async function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-lg font-medium mb-4">Board Game Paradise</p>
+                    <p className="text-lg font-medium mb-4">NTER Board Game Cafe</p>
                     {store?.facebook ? (
                       <a href={store.facebook} target="_blank" rel="noopener noreferrer">
                         <Button className="w-full gap-2">
@@ -100,11 +100,13 @@ export default async function ContactPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold mb-4">{store?.line_id || '@boardgameparadise'}</p>
-                    <Button className="w-full gap-2" variant="outline">
-                      <MessageCircle className="h-4 w-4" />
-                      เพิ่มเพื่อนใน Line
-                    </Button>
+                    <p className="text-2xl font-bold mb-4">{store?.line_id || '@ntercafe'}</p>
+                    <a href={`tel:${store?.line_id || '@ntercafe'}`}>
+                      <Button className="w-full gap-2">
+                        <MessageCircle className="h-4 w-4" />
+                        เพิ่มเพื่อนใน Line
+                      </Button>
+                    </a>  
                   </CardContent>
                 </Card>
 
@@ -123,7 +125,7 @@ export default async function ContactPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground mb-4">
-                      {store?.address || '123 ถนนสุขุมวิท กรุงเทพฯ 10110'}
+                      {store?.address || '42/16 ถ.อำมาตย์ ต.ในเมือง อ.เมือง จ.ขอนแก่น, Khon Kaen, Thailand'}
                     </p>
                     {store?.google_maps_url ? (
                       <a href={store.google_maps_url} target="_blank" rel="noopener noreferrer">
@@ -143,31 +145,26 @@ export default async function ContactPage() {
               </div>
 
               {/* Store Hours */}
-              <Card className="mt-6">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
+              <div className="flex justify-center w-full"> {/* ตัวหุ้มชั้นนอกสุดเพื่อบีบให้ Card อยู่กลางหน้า */}
+                <Card className="mt-6 text-center w-full max-w-md"> {/* ใส่ max-w-md เพื่อจำกัดความกว้างของกรอบ */}
+                  <CardHeader className="flex flex-col items-center justify-center space-y-3">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary w-fit">
                       <Clock className="h-6 w-6" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <CardTitle>เวลาทำการ</CardTitle>
                       <CardDescription>เปิดให้บริการทุกวัน</CardDescription>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-lg bg-muted">
-                      <p className="font-medium">จันทร์ - ศุกร์</p>
-                      <p className="text-muted-foreground">14:00 - 22:00</p>
+                  </CardHeader>
+
+                  <CardContent className="flex justify-center">
+                    <div className="p-4 rounded-lg bg-muted w-full max-w-[280px]"> {/* บีบขนาดกล่องสีเทาด้านในด้วย */}
+                      <p className="font-medium">อังคาร - ศุกร์</p>
+                      <p className="text-muted-foreground">12:00 - 24:00</p>
                     </div>
-                    <div className="p-4 rounded-lg bg-muted">
-                      <p className="font-medium">เสาร์ - อาทิตย์</p>
-                      <p className="text-muted-foreground">10:00 - 22:00</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>

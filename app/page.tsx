@@ -42,7 +42,7 @@ export default async function HomePage() {
                 </div>
               </div>
               <h1 className="text-4xl lg:text-6xl font-bold tracking-tight text-balance">
-                {store?.name || 'Board Game Paradise'}
+                {store?.name || 'NTER Board Game Cafe'}
               </h1>
               <p className="mt-4 text-xl text-muted-foreground text-pretty">
                 {store?.slogan || 'สวรรค์ของคนรักบอร์ดเกม'}
@@ -190,7 +190,7 @@ export default async function HomePage() {
                         <Facebook className="h-5 w-5 text-primary" />
                         <div className="text-left">
                           <p className="text-xs text-muted-foreground">Facebook</p>
-                          <p className="font-medium">Board Game Paradise</p>
+                          <p className="font-medium">NTER Board Game Cafe</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -207,11 +207,12 @@ export default async function HomePage() {
                     </CardContent>
                   </Card>
                 )}
+                {/* ตัวอย่างการปรับในส่วนของ Google Maps */}
                 {store?.google_maps_url && (
-                  <a href={store.google_maps_url} target="_blank" rel="noopener noreferrer">
-                    <Card className="hover:shadow-md transition-shadow">
-                      <CardContent className="p-4 flex items-center gap-3">
-                        <MapPin className="h-5 w-5 text-primary" />
+                  <a href={store.google_maps_url} target="_blank" rel="noopener noreferrer" className="block h-full"> {/* เพิ่ม block h-full */}
+                    <Card className="hover:shadow-md transition-shadow h-full"> {/* เพิ่ม h-full */}
+                      <CardContent className="p-4 flex items-center gap-3 h-full"> {/* เพิ่ม h-full */}
+                        <MapPin className="h-5 w-5 text-primary shrink-0" /> {/* เพิ่ม shrink-0 กันไอคอนเบี้ยว */}
                         <div className="text-left">
                           <p className="text-xs text-muted-foreground">Google Maps</p>
                           <p className="font-medium">ดูแผนที่</p>
