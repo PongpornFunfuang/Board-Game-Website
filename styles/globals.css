@@ -1,52 +1,61 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+/**
+ * ไฟล์: Board-Game-Website/styles/globals.css
+ * หน้าที่: กำหนดสไตล์หลักและตัวแปรสีทั้งหมด (Global Styles & CSS Variables)
+ * รูปแบบ: Tailwind CSS v4 + OKLCH Color Space
+ */
 
+@import 'tailwindcss';    /* นำเข้าชุดเครื่องมือหลักของ Tailwind CSS */
+@import 'tw-animate-css'; /* นำเข้าชุดคำสั่งสำหรับทำ Animation (เช่น การเลื่อนขึ้น, การจางหาย) */
+
+/* สร้างตัวแปรพิเศษ (Custom Variant) สำหรับ Dark Mode เพื่อให้เขียน class 'dark:...' ได้ */
 @custom-variant dark (&:is(.dark *));
 
+/* --- [LIGHT MODE THEME: ค่าเริ่มต้นเมื่อเข้าเว็บ] --- */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --background: oklch(1 0 0);           /* สีพื้นหลังของหน้าเว็บ (ขาวบริสุทธิ์) */
+  --foreground: oklch(0.145 0 0);       /* สีตัวอักษรหลัก (ดำ) */
+  --card: oklch(1 0 0);                 /* สีพื้นหลังของการ์ด (Card) */
+  --card-foreground: oklch(0.145 0 0);  /* สีตัวอักษรบนการ์ด */
+  --popover: oklch(1 0 0);              /* สีพื้นหลังของเมนูที่เด้งออกมา (เช่น Dropdown) */
+  --popover-foreground: oklch(0.145 0 0); /* สีตัวอักษรบนเมนูที่เด้งออกมา */
+  --primary: oklch(0.205 0 0);          /* สีหลักของแบรนด์ (ปุ่มเน้น, ส่วนสำคัญ) */
+  --primary-foreground: oklch(0.985 0 0); /* สีตัวอักษรเมื่ออยู่บนสีหลัก (ขาว) */
+  --secondary: oklch(0.97 0 0);         /* สีรอง (สำหรับปุ่มที่ไม่เด่นมาก) */
+  --secondary-foreground: oklch(0.205 0 0); /* สีตัวอักษรบนสีรอง */
+  --muted: oklch(0.97 0 0);             /* สีหม่น (สำหรับพื้นหลังที่ต้องการให้จางลง) */
+  --muted-foreground: oklch(0.556 0 0);  /* สีตัวอักษรคำอธิบายที่ต้องการให้ดูจาง */
+  --accent: oklch(0.97 0 0);            /* สีเน้น (ใช้เวลา Hover หรือเอาเมาส์ไปวาง) */
+  --accent-foreground: oklch(0.205 0 0); /* สีตัวอักษรบนสีเน้น */
+  --destructive: oklch(0.577 0.245 27.325); /* สีแดง (สำหรับการลบข้อมูล หรือ Error) */
+  --destructive-foreground: oklch(0.577 0.245 27.325); /* สีตัวอักษรแจ้งเตือนอันตราย */
+  --border: oklch(0.922 0 0);           /* สีของเส้นขอบ (Border) ทั่วไป */
+  --input: oklch(0.922 0 0);            /* สีเส้นขอบของช่องกรอกข้อมูล (Input) */
+  --ring: oklch(0.708 0 0);             /* สีวงแหวนเรืองแสงเวลาคลิก Focus ที่ปุ่ม */
+  --chart-1: oklch(0.646 0.222 41.116); /* สีสำหรับกราฟสถิติชุดที่ 1 */
+  --chart-2: oklch(0.6 0.118 184.704);  /* สีสำหรับกราฟสถิติชุดที่ 2 */
+  --chart-3: oklch(0.398 0.07 227.392);  /* สีสำหรับกราฟสถิติชุดที่ 3 */
+  --chart-4: oklch(0.828 0.189 84.429);  /* สีสำหรับกราฟสถิติชุดที่ 4 */
+  --chart-5: oklch(0.769 0.188 70.08);   /* สีสำหรับกราฟสถิติชุดที่ 5 */
+  --radius: 0.625rem;                   /* ค่าความโค้งมนพื้นฐานของมุมขอบ (Border Radius) */
+  --sidebar: oklch(0.985 0 0);          /* สีพื้นหลังของแถบเมนูข้าง (Sidebar) */
+  --sidebar-foreground: oklch(0.145 0 0); /* สีตัวอักษรใน Sidebar */
+  --sidebar-primary: oklch(0.205 0 0);   /* สีหลักที่ใช้ใน Sidebar */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: oklch(0.97 0 0);     /* สีเน้นใน Sidebar */
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-border: oklch(0.922 0 0);    /* สีเส้นขอบของ Sidebar */
+  --sidebar-ring: oklch(0.708 0 0);      /* สีวงแหวน Focus ใน Sidebar */
 }
 
+/* --- [DARK MODE THEME: ค่าสีเมื่อเปิดโหมดมืด] --- */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0.145 0 0);       /* พื้นหลังเปลี่ยนเป็นดำ/เทาเข้ม */
+  --foreground: oklch(0.985 0 0);       /* ตัวอักษรเปลี่ยนเป็นขาว */
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);          /* สีหลักสลับเป็นสีสว่างเพื่อให้เด่นในที่มืด */
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -74,11 +83,12 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* --- [TAILWIND THEME CONFIG: เชื่อมโยงตัวแปรเข้ากับ Tailwind] --- */
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --font-sans: 'Geist', 'Geist Fallback'; /* ตั้งฟอนต์ Sans เป็น Geist */
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback'; /* ตั้งฟอนต์ Mono */
+  --color-background: var(--background);  /* แมพ class 'bg-background' */
+  --color-foreground: var(--foreground);  /* แมพ class 'text-foreground' */
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -101,10 +111,14 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* คำนวณความโค้งมนของขอบในขนาดต่างๆ (S, M, L, XL) โดยอ้างอิงจาก --radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* แมพคัลเลอร์สำหรับส่วน Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -115,11 +129,14 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* --- [BASE LAYER: กำหนดค่าเริ่มต้นให้กับทุกอิลิเมนต์] --- */
 @layer base {
   * {
+    /* ให้ทุกอย่างมีสีเส้นขอบตามตัวแปร --border และมี Outline เรืองแสง 50% เมื่อ Focus */
     @apply border-border outline-ring/50;
   }
   body {
+    /* ตั้งสีพื้นหลังและสีตัวอักษรเริ่มต้นให้กับทั้งหน้าเว็บ */
     @apply bg-background text-foreground;
   }
 }

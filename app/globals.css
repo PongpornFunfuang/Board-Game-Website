@@ -1,34 +1,50 @@
+/**
+ * ไฟล์: Board-Game-Website/app/globals.css
+ * หน้าที่: กำหนดสไตล์พื้นฐาน (Global Styles), ตัวแปรสี (Theme Variables), 
+ * และการตั้งค่า Dark Mode ของเว็บไซต์ทั้งหมด
+ */
+
+/* นำเข้าชุดเครื่องมือพื้นฐานของ Tailwind CSS v4 */
 @import 'tailwindcss';
+/* นำเข้าปลั๊กอินสำหรับการทำ Animation (เช่น fade-in, slide-in) */
 @import 'tw-animate-css';
 
+/* กำหนด Custom Variant สำหรับ Dark Mode เพื่อให้เขียน Class เช่น dark:bg-black ได้แม่นยำขึ้น */
 @custom-variant dark (&:is(.dark *));
 
+/**
+ * [SECTION: LIGHT MODE VARIABLES]
+ * กำหนดค่าเริ่มต้น (Default) ของสีในโหมดสว่าง 
+ * ใช้ระบบสี OKLCH (L = ความสว่าง, C = ความสดของสี, H = เฉดสี) เพื่อความแม่นยำของสีระดับสูง
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --background: oklch(1 0 0);           /* สีพื้นหลังหลัก (สีขาวบริสุทธิ์) */
+  --foreground: oklch(0.145 0 0);       /* สีตัวอักษรหลัก (สีเทาเข้มเกือบดำ) */
+  --card: oklch(1 0 0);                 /* สีพื้นหลังของ Card */
+  --card-foreground: oklch(0.145 0 0);  /* สีตัวอักษรบน Card */
+  --popover: oklch(1 0 0);              /* สีพื้นหลังของ Popover/Tooltip/Dropdown */
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --primary: oklch(0.205 0 0);          /* สีหลักของแบรนด์ (Primary - สีเข้ม) */
+  --primary-foreground: oklch(0.985 0 0); /* สีตัวอักษรที่อยู่บนพื้นหลังสี Primary */
+  --secondary: oklch(0.97 0 0);         /* สีรอง (Secondary - สีเทาอ่อน) */
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --muted: oklch(0.97 0 0);             /* สีสำหรับส่วนที่ต้องการให้ดูจางลง (เช่น พื้นหลังปุ่มที่ไม่ได้เลือก) */
+  --muted-foreground: oklch(0.556 0 0);  /* สีตัวอักษรสำหรับข้อความรอง */
+  --accent: oklch(0.97 0 0);            /* สีสำหรับเน้นจุดสนใจเล็กน้อย */
   --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: oklch(0.577 0.245 27.325); /* สีสำหรับการลบหรือปุ่มอันตราย (สีแดง) */
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
+  --border: oklch(0.922 0 0);           /* สีเส้นขอบ (Border) มาตรฐาน */
+  --input: oklch(0.922 0 0);            /* สีเส้นขอบของ Input Form */
+  --ring: oklch(0.708 0 0);             /* สีของเส้น Focus (Ring) รอบปุ่มเมื่อถูกเลือก */
+  --chart-1: oklch(0.646 0.222 41.116); /* ชุดสีสำหรับทำกราฟหรือชาร์ตแสดงผลข้อมูล */
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --radius: 0.625rem;                   /* ค่าความมนของขอบหลัก (ประมาณ 10px) */
+  
+  /* ตัวแปรสำหรับ Sidebar (แถบเมนูข้าง) */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -39,14 +55,18 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/**
+ * [SECTION: DARK MODE VARIABLES]
+ * กำหนดค่าสีใหม่เมื่อมีการเปิดโหมดมืด (Body มี Class .dark)
+ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0.145 0 0);       /* พื้นหลังสีดำเข้ม */
+  --foreground: oklch(0.985 0 0);       /* ตัวอักษรสีขาวสว่าง */
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);          /* สลับสี Primary ให้เด่นขึ้นในโหมดมืด */
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -56,7 +76,7 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
+  --border: oklch(0.269 0 0);           /* เส้นขอบสีเข้มขึ้นให้เข้ากับพื้นหลัง */
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -74,9 +94,16 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/**
+ * [SECTION: TAILWIND THEME CONFIG]
+ * แมปตัวแปร CSS เข้ากับ Class ของ Tailwind เพื่อให้เรียกใช้ได้ทันที (เช่น text-primary)
+ */
 @theme inline {
+  /* กำหนดฟอนต์หลักของระบบ */
   --font-sans: 'Geist', 'Geist Fallback';
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  
+  /* กำหนดการเชื่อมโยงสี Utility Classes */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -96,15 +123,21 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  
+  /* แมปสี Chart */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  
+  /* คำนวณความมนขอบ (Border Radius) ในแต่ละระดับ */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
+  /* แมปสี Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -115,10 +148,16 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/**
+ * [SECTION: BASE LAYER]
+ * กำหนดสไตล์พื้นฐานให้กับ Element ของ HTML (CSS Reset/Standardization)
+ */
 @layer base {
+  /* กำหนดให้ทุก Element (*) มีสีขอบมาตรฐานและสี Focus ตามค่าตัวแปรที่เราตั้งไว้ */
   * {
     @apply border-border outline-ring/50;
   }
+  /* ตั้งค่าพื้นหลังและสีตัวอักษรเริ่มต้นให้กับ Body */
   body {
     @apply bg-background text-foreground;
   }

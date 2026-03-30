@@ -1,3 +1,9 @@
+/**
+ * ไฟล์: Board-Game-Website/app/admin/dashboard/categories/page.tsx
+ * หน้าที่: หน้าจัดการหมวดหมู่ของบอร์ดเกม (เพิ่ม, แก้ไข, ลบ)
+ * การทำงาน: ติดต่อกับ API Route (/api/categories) เพื่อจัดการข้อมูลใน Database
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -9,21 +15,29 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from '@/components/ui/textarea'
 import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
 import { Plus, Pencil, Trash2, Loader2 } from 'lucide-react'
-import type { Category } from '@/lib/types'
+import type { Category } from '@/lib/types' // ใช้ Type Category จากที่นิยามไว้
 
 export default function AdminCategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [saving, setSaving] = useState(false)
+  // --- [STATE MANAGEMENT] ---
+  const [categories, setCategories] = useState<Category[]>([]) // รายการหมวดหมู่ทั้งหมด
+  const [loading, setLoading] = useState(true)                // สถานะการโหลดข้อมูล
+  const [dialogOpen, setDialogOpen] = useState(false)        // ควบคุม Modal เพิ่ม/แก้ไข
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false) // ควบคุม Modal ยืนยันการลบ
+  const [saving, setSaving] = useState(false)                 // สถานะระหว่างส่งข้อมูลไป API
+  
+  // เก็บข้อมูลหมวดหมู่ที่กำลังจัดการ (แก้ไขหรือลบ)
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null)
+  
+  // ข้อมูลในฟอร์ม
   const [formData, setFormData] = useState({
     name: '',
     description: ''
   })
 
+  /**
+   * fetchCategories: ดึงข้อมูลหมวดหมู่ทั้งหมดจาก API
+   */
   const fetchCategories = async () => {
     setLoading(true)
     try {
@@ -37,16 +51,23 @@ export default function AdminCategoriesPage() {
     }
   }
 
+  // เรียกข้อมูลครั้งแรกเมื่อหน้าจอโหลดเสร็จ
   useEffect(() => {
     fetchCategories()
   }, [])
 
+  /**
+   * openAddDialog: รีเซ็ตฟอร์มเพื่อเตรียมเพิ่มหมวดหมู่ใหม่
+   */
   const openAddDialog = () => {
     setEditingCategory(null)
     setFormData({ name: '', description: '' })
     setDialogOpen(true)
   }
 
+  /**
+   * openEditDialog: นำข้อมูลหมวดหมู่ที่เลือกมาใส่ฟอร์มเพื่อแก้ไข
+   */
   const openEditDialog = (category: Category) => {
     setEditingCategory(category)
     setFormData({
@@ -56,16 +77,21 @@ export default function AdminCategoriesPage() {
     setDialogOpen(true)
   }
 
+  /**
+   * handleSave: บันทึกข้อมูล (POST ถ้าเพิ่มใหม่, PUT ถ้าแก้ไข)
+   */
   const handleSave = async () => {
     setSaving(true)
     try {
       if (editingCategory) {
+        // กรณีแก้ไข (Update)
         await fetch(`/api/categories/${editingCategory.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         })
       } else {
+        // กรณีเพิ่มใหม่ (Create)
         await fetch('/api/categories', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -73,8 +99,8 @@ export default function AdminCategoriesPage() {
         })
       }
 
-      setDialogOpen(false)
-      fetchCategories()
+      setDialogOpen(false) // ปิด Modal
+      fetchCategories()    // รีโหลดตาราง
     } catch (error) {
       console.error('Error saving category:', error)
     } finally {
@@ -82,6 +108,9 @@ export default function AdminCategoriesPage() {
     }
   }
 
+  /**
+   * handleDelete: ลบหมวดหมู่ที่เลือก
+   */
   const handleDelete = async () => {
     if (!categoryToDelete) return
 
@@ -102,6 +131,7 @@ export default function AdminCategoriesPage() {
 
   return (
     <div>
+      {/* ส่วนหัวของหน้าจอ */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold">จัดการหมวดหมู่</h1>
@@ -113,7 +143,7 @@ export default function AdminCategoriesPage() {
         </Button>
       </div>
 
-      {/* Categories Table */}
+      {/* --- [SECTION: CATEGORIES TABLE] --- */}
       <Card>
         <CardHeader>
           <CardTitle>รายการหมวดหมู่ ({categories.length})</CardTitle>
@@ -141,14 +171,17 @@ export default function AdminCategoriesPage() {
                   {categories.map((category) => (
                     <TableRow key={category.id}>
                       <TableCell className="font-medium">{category.name}</TableCell>
+                      {/* ใช้ truncate เพื่อไม่ให้รายละเอียดที่ยาวเกินไปทำตารางเสียรูป */}
                       <TableCell className="max-w-md truncate">
                         {category.description || '-'}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
+                          {/* ปุ่มแก้ไข */}
                           <Button variant="ghost" size="icon" onClick={() => openEditDialog(category)}>
                             <Pencil className="h-4 w-4" />
                           </Button>
+                          {/* ปุ่มลบ */}
                           <Button
                             variant="ghost"
                             size="icon"
@@ -170,7 +203,7 @@ export default function AdminCategoriesPage() {
         </CardContent>
       </Card>
 
-      {/* Add/Edit Dialog */}
+      {/* --- [DIALOG: ADD/EDIT] --- */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -207,6 +240,7 @@ export default function AdminCategoriesPage() {
             <Button variant="outline" onClick={() => setDialogOpen(false)}>
               ยกเลิก
             </Button>
+            {/* ปิดการใช้งานปุ่มถ้ากำลังบันทึก หรือยังไม่ได้กรอกชื่อหมวดหมู่ */}
             <Button onClick={handleSave} disabled={saving || !formData.name}>
               {saving ? (
                 <>
@@ -221,7 +255,7 @@ export default function AdminCategoriesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* --- [DIALOG: DELETE CONFIRMATION] --- */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>

@@ -1,3 +1,9 @@
+/**
+ * ไฟล์: Board-Game-Website/app/admin/dashboard/games/page.tsx
+ * หน้าที่: หน้าจัดการรายการบอร์ดเกมทั้งหมด (เพิ่ม, แก้ไข, ลบ และค้นหา)
+ * การทำงาน: ติดต่อกับ API Route (/api/games) เพื่อจัดการข้อมูลในฐานข้อมูล Supabase
+ */
+
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
@@ -11,18 +17,23 @@ import { Textarea } from '@/components/ui/textarea'
 import { FieldGroup, Field, FieldLabel } from '@/components/ui/field'
 import { Plus, Pencil, Trash2, Search, Loader2 } from 'lucide-react'
 import Image from 'next/image'
-import type { BoardGame, Category } from '@/lib/types'
+import type { BoardGame, Category } from '@/lib/types' // นำเข้า Type เพื่อความแม่นยำของข้อมูล
 
 export default function AdminGamesPage() {
-  const [games, setGames] = useState<BoardGame[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [saving, setSaving] = useState(false)
+  // --- [STATE MANAGEMENT] ---
+  const [games, setGames] = useState<BoardGame[]>([])      // เก็บรายการเกมทั้งหมด
+  const [categories, setCategories] = useState<Category[]>([]) // เก็บหมวดหมู่ (สำหรับตอนเลือกใน Form)
+  const [loading, setLoading] = useState(true)               // สถานะโหลดตาราง
+  const [searchQuery, setSearchQuery] = useState('')         // เก็บค่าที่พิมพ์ในช่องค้นหา
+  const [dialogOpen, setDialogOpen] = useState(false)       // ควบคุม Dialog เพิ่ม/แก้ไข
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false) // ควบคุม Dialog ยืนยันการลบ
+  const [saving, setSaving] = useState(false)                // สถานะกำลังบันทึก/ลบ (ป้องการกดซ้ำ)
+  
+  // เก็บข้อมูลเกมที่กำลังถูกแก้ไข หรือกำลังจะถูกลบ
   const [editingGame, setEditingGame] = useState<BoardGame | null>(null)
   const [gameToDelete, setGameToDelete] = useState<BoardGame | null>(null)
+  
+  // เก็บค่าจากฟอร์มใน Dialog
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -33,6 +44,10 @@ export default function AdminGamesPage() {
     play_time: ''
   })
 
+  /**
+   * fetchGames: ดึงข้อมูลรายการเกมจาก API
+   * ใช้ useCallback เพื่อป้องกันการสร้างฟังก์ชันใหม่โดยไม่จำเป็นเมื่อ Search Query เปลี่ยน
+   */
   const fetchGames = useCallback(async () => {
     setLoading(true)
     try {
@@ -49,6 +64,9 @@ export default function AdminGamesPage() {
     }
   }, [searchQuery])
 
+  /**
+   * fetchCategories: ดึงหมวดหมู่เพื่อใช้แสดงใน Dropdown (Select)
+   */
   const fetchCategories = async () => {
     try {
       const res = await fetch('/api/categories')
@@ -59,18 +77,26 @@ export default function AdminGamesPage() {
     }
   }
 
+  // โหลดหมวดหมู่ครั้งเดียวเมื่อเข้าหน้าเว็บ
   useEffect(() => {
     fetchCategories()
   }, [])
 
+  // โหลดรายการเกมเมื่อฟังก์ชัน fetchGames เปลี่ยนแปลง (ตาม Search Query)
   useEffect(() => {
     fetchGames()
   }, [fetchGames])
 
+  /**
+   * handleSearch: ฟังก์ชันเรียกใช้งานเมื่อกดปุ่มค้นหาหรือกด Enter
+   */
   const handleSearch = () => {
     fetchGames()
   }
 
+  /**
+   * openAddDialog: เตรียมฟอร์มให้ว่างเพื่อเพิ่มเกมใหม่
+   */
   const openAddDialog = () => {
     setEditingGame(null)
     setFormData({
@@ -85,6 +111,9 @@ export default function AdminGamesPage() {
     setDialogOpen(true)
   }
 
+  /**
+   * openEditDialog: นำข้อมูลเกมที่มีอยู่แล้วมาใส่ในฟอร์มเพื่อแก้ไข
+   */
   const openEditDialog = (game: BoardGame) => {
     setEditingGame(game)
     setFormData({
@@ -99,21 +128,26 @@ export default function AdminGamesPage() {
     setDialogOpen(true)
   }
 
+  /**
+   * handleSave: ส่งข้อมูลไปยัง API (POST สำหรับเพิ่ม, PUT สำหรับแก้ไข)
+   */
   const handleSave = async () => {
     setSaving(true)
     try {
       const payload = {
         ...formData,
-        category_id: formData.category_id || null
+        category_id: formData.category_id || null // ถ้าไม่ได้เลือกให้ส่งเป็น null
       }
 
       if (editingGame) {
+        // แก้ไขเกมเดิม
         await fetch(`/api/games/${editingGame.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         })
       } else {
+        // เพิ่มเกมใหม่
         await fetch('/api/games', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -122,7 +156,7 @@ export default function AdminGamesPage() {
       }
 
       setDialogOpen(false)
-      fetchGames()
+      fetchGames() // โหลดรายการใหม่หลังบันทึก
     } catch (error) {
       console.error('Error saving game:', error)
     } finally {
@@ -130,6 +164,9 @@ export default function AdminGamesPage() {
     }
   }
 
+  /**
+   * handleDelete: ส่งคำขอลบไปยัง API (DELETE)
+   */
   const handleDelete = async () => {
     if (!gameToDelete) return
 
@@ -140,7 +177,7 @@ export default function AdminGamesPage() {
       })
       setDeleteDialogOpen(false)
       setGameToDelete(null)
-      fetchGames()
+      fetchGames() // โหลดรายการใหม่หลังลบ
     } catch (error) {
       console.error('Error deleting game:', error)
     } finally {
@@ -150,6 +187,7 @@ export default function AdminGamesPage() {
 
   return (
     <div>
+      {/* ส่วนหัวหน้าจัดการ */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold">จัดการบอร์ดเกม</h1>
@@ -161,7 +199,7 @@ export default function AdminGamesPage() {
         </Button>
       </div>
 
-      {/* Search */}
+      {/* ส่วนการค้นหา (Search Card) */}
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="flex gap-2">
@@ -180,7 +218,7 @@ export default function AdminGamesPage() {
         </CardContent>
       </Card>
 
-      {/* Games Table */}
+      {/* ตารางแสดงรายการเกม (Games Table Card) */}
       <Card>
         <CardHeader>
           <CardTitle>รายการบอร์ดเกม ({games.length})</CardTitle>
@@ -232,9 +270,11 @@ export default function AdminGamesPage() {
                       <TableCell>{game.play_time || '-'}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
+                          {/* ปุ่มแก้ไข */}
                           <Button variant="ghost" size="icon" onClick={() => openEditDialog(game)}>
                             <Pencil className="h-4 w-4" />
                           </Button>
+                          {/* ปุ่มลบ */}
                           <Button
                             variant="ghost"
                             size="icon"
@@ -256,7 +296,7 @@ export default function AdminGamesPage() {
         </CardContent>
       </Card>
 
-      {/* Add/Edit Dialog */}
+      {/* [MODAL/DIALOG] - แบบฟอร์มเพิ่ม/แก้ไขบอร์ดเกม */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -266,6 +306,7 @@ export default function AdminGamesPage() {
             </DialogDescription>
           </DialogHeader>
 
+          {/* Form Fields */}
           <FieldGroup className="py-4">
             <Field>
               <FieldLabel htmlFor="name">ชื่อเกม *</FieldLabel>
@@ -370,7 +411,7 @@ export default function AdminGamesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* [MODAL/DIALOG] - ยืนยันการลบเกม */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
