@@ -43,9 +43,6 @@ export function Footer() {
               <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 ติดต่อเรา
               </Link>
-              <Link href="/admin" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                สำหรับแอดมิน
-              </Link>
             </nav>
           </div>
 
