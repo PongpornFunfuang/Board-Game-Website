@@ -46,12 +46,6 @@ export function Header() {
           <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors">
             ติดต่อเรา
           </Link>
-          {/* ปุ่มสำหรับเข้าหน้าจัดการ (Admin) */}
-          <Link href="/admin">
-            <Button variant="outline" size="sm">
-              Admin
-            </Button>
-          </Link>
         </nav>
 
         {/* --- ปุ่มเปิดเมนูมือถือ (Hamburger Button): แสดงเฉพาะหน้าจอเล็กกว่า md --- */}
@@ -98,11 +92,6 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               ติดต่อเรา
-            </Link>
-            <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="outline" size="sm" className="w-full">
-                Admin
-              </Button>
             </Link>
           </nav>
         </div>
